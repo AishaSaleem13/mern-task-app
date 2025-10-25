@@ -1,58 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { postapi, getupdate } from "../../Config/api";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { clearupdate } from "../../../Store/update";
 
-import BlurText from "./BlurText";
-import PandaKeyboard from "./Panda";
- import { postapi } from "../../Config/api";
- import { useNavigate } from "react-router-dom";
 function Hero1() {
-const [task,settask]=useState("")
-const [title,settitle]=useState("")
+  const dispatch = useDispatch();
+  const taskToEdit = useSelector((state) => state.updateTask);
+  const [title, setTitle] = useState("");
+  const [tasks, setTasks] = useState("");
+  const navigate = useNavigate();
 
-const navigate=useNavigate()
-const getdata = async (e) => {
-  try {
-      e.preventDefault();
-        if (!title || !task  ) {
-            alert('Please fill in all fields');
-            return;
-        }
-    const res= await postapi({task,title})
-    console.log(res)
-    if(res){
-      alert("Task added successfully!");
-      settask("");
-      settitle("");
-      navigate("/mainpage")
-      return
+  useEffect(() => {
+    if (taskToEdit) {
+      setTitle(taskToEdit.title || "");
+      setTasks(taskToEdit.tasks || "");
     }
-  } catch (error) {
-    
-alert('An error occurred while posting your task. Please try again later.');
-  }
-}
+  }, [taskToEdit]);
 
-const handletitle= (e)=>{
-  settitle(e.target.value)
-}
-const handledescription=(e)=>{
-  settask(e.target.value)
-}
+  useEffect(()=>{
+    handleSubmit()
+  },[])
+  const handleSubmit = async (e) => {
+    dispatch(clearupdate())
+    e.preventDefault();
+    if (!title || !tasks) {
+      alert("Please fill in all fields");
+      return;
+    }
 
+    try {
+      if (taskToEdit) {
+        await getupdate(taskToEdit._id, { title, tasks });
+        dispatch(clearupdate());
+        alert("Task updated successfully!");
+      } else {
+        await postapi({ title, tasks });
+        alert("Task added successfully!");
+      }
 
+   
+      navigate("/mainpage");
+    } catch (error) {
+      alert("An error occurred. Please try again later.");
+    }
+  };
 
   return (
-    <div className="hero bg-gradient-to-br from-gray-50 to-gray-100  min-h-screen flex flex-col md:flex-row items-center justify-center p-6 gap-12">
-      {/* Form Card */}
+    <div className="hero bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex flex-col md:flex-row items-center justify-center p-6 gap-12">
       <div className="card bg-base-100 w-full max-w-md shadow-2xl p-6">
         <h2 className="text-2xl font-bold mb-6 text-center">Add Task 📝</h2>
-        <fieldset className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label className="label block mb-1">Title:</label>
             <input
               type="text"
               placeholder="Enter title"
-             value={title}
-              onChange={handletitle}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               className="input input-bordered w-full"
             />
           </div>
@@ -60,32 +65,16 @@ const handledescription=(e)=>{
             <label className="label block mb-1">Task:</label>
             <textarea
               placeholder="Enter description"
-            value={task}
-              onChange={handledescription}
+              value={tasks}
+              onChange={(e) => setTasks(e.target.value)}
               className="textarea textarea-bordered w-full h-24"
             />
           </div>
 
-        
-
-          {/* Submit Button */}
-          <button className="btn bg-blue-600 w-full mt-4"
-          onClick={getdata}>Save</button>
-        </fieldset>
-      </div>
-
-      {/* Panda and motivational line */}
-      <div className="flex flex-col items-center md:ml-20">
-        <div className="w-72 md:w-96">
-          <PandaKeyboard />
-        </div>
-        <BlurText
-          text="Work now, nap like a champ!"
-          delay={100}
-          animateBy="words"
-          direction="top"
-          className="text-xl md:text-2xl mt-4 text-blue-600 font-mono text-center"
-        />
+          <button type="submit" className="btn bg-blue-600 w-full mt-4">
+            {taskToEdit ? "Update" : "Save"}
+          </button>
+        </form>
       </div>
     </div>
   );

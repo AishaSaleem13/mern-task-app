@@ -1,7 +1,10 @@
 import React from "react";
 
-
+import { useNavigate } from "react-router-dom";
+import { clearupdate } from "../../../Store/update";
+import { useDispatch } from "react-redux";
 const cards = [
+ 
   {
     id: 1,
     title: "Gym Time ",
@@ -33,17 +36,22 @@ const cards = [
 ];
 
 function AnimatedCards() {
+   const navigate =useNavigate();
+   const dispatch= useDispatch()
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-fit mx-auto mt-10">
       {cards.map((c) => (
         <div
           key={c.id}
+        onClick={() => {
+                 dispatch(clearupdate());
+                 navigate("/");
+               }}
           className={`relative w-40 md:w-56 h-48 rounded-2xl bg-gradient-to-br ${c.gradient} shadow-xl text-white flex flex-col items-center justify-center transition-all duration-500 hover:scale-105`}
         >
-          {/* Animated face */}
+         
           <div className="text-5xl mb-2 animate-bounce">{c.face}</div>
 
-          {/* Text content */}
           <div className="text-center">
             <h1 className="text-lg md:text-xl font-bold tracking-wide">
               {c.title}
@@ -51,9 +59,7 @@ function AnimatedCards() {
             <p className="text-xs md:text-sm text-white/90 mt-1 px-2">
               {c.text}
             </p>
-          </div>
-
-          {/* Small shadow animation */}
+          </div>    
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-white/30 rounded-full animate-pulse"></div>
         </div>
       ))}
