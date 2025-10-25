@@ -27,7 +27,7 @@ function Home() {
 
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this task?")) return;
+   
     try {
       await getdelete(id);
       getData(); 

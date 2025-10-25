@@ -3,6 +3,9 @@ import { postapi, getupdate } from "../../Config/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearupdate } from "../../../Store/update";
+import PandaKeyboard from "./Panda";
+
+       import BlurText from "./BlurText";
 
 function Hero1() {
   const dispatch = useDispatch();
@@ -18,9 +21,7 @@ function Hero1() {
     }
   }, [taskToEdit]);
 
-  useEffect(()=>{
-    handleSubmit()
-  },[])
+
   const handleSubmit = async (e) => {
     dispatch(clearupdate())
     e.preventDefault();
@@ -75,7 +76,22 @@ function Hero1() {
             {taskToEdit ? "Update" : "Save"}
           </button>
         </form>
+       
       </div>
+      <div className="ml-4">
+       <PandaKeyboard/>
+
+
+
+
+<BlurText
+  text="Work now,Procrastinate later!!"
+  delay={150}
+  animateBy="words"
+  direction="top"
+  className="text-2xl mb-8 text-blue-700 font-extrabold tracking-wider"
+/>
+       </div>
     </div>
   );
 }

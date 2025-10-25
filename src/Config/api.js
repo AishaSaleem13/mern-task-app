@@ -36,7 +36,7 @@ export const postapi= async (postData) => {
 
 export const getdelete = async (id) => {
   try {
-    const res = await fetch(`https://todo-backend-app-lilac.vercel.app/api/tasks${id}`, {
+    const res = await fetch(`https://todo-backend-app-lilac.vercel.app/api/tasks/${id}`, {
       method: "DELETE",
     });
     const data = await res.json();
@@ -47,7 +47,7 @@ export const getdelete = async (id) => {
 };
 export const getupdate = async (id,updatedData) => {
   try {
-    const res = await fetch(`https://todo-backend-app-lilac.vercel.app/api/tasks${id}`, {
+    const res = await fetch(`https://todo-backend-app-lilac.vercel.app/api/tasks/${id}`, {
       method: "PUT",
        headers: {
         "Content-Type": "application/json",
