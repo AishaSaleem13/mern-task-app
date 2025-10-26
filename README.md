@@ -33,7 +33,6 @@
 | Styling | Tailwind CSS | [Tailwind](https://tailwindcss.com/) |
 | Components | DaisyUI | [DaisyUI](https://daisyui.com/) |
 | Routing | React Router Dom | [Docs](https://reactrouter.com/) |
-| API Calls | Axios | [Axios](https://axios-http.com/) |
 | Playground | CodePen | [Demo](https://codepen.io/) |
 
 ---
