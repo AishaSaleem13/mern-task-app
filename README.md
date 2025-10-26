@@ -8,7 +8,7 @@
 [![DaisyUI](https://img.shields.io/badge/DaisyUI-Tailwind-lightblue)](https://daisyui.com/)  
 [![CodePen](https://img.shields.io/badge/CodePen-Demo-black?logo=codepen&logoColor=white)](https://codepen.io/)  
 
-> “Stay on top of your tasks… and let Panda watch over them!” 🐾  
+
 
 ---
 
